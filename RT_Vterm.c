@@ -36,14 +36,14 @@ int RT_Vterm_Init(void)
     down_tunnel = Get_Free_Tunnel();
     Set_Tunnel_Operation(up_tunnel, tunnel_write);
     Set_Tunnel_Operation(down_tunnel, tunnel_read);
-    up_tunnel->ID   = 0x56545455; //VTTU
-    down_tunnel->ID = 0x56545444; //VTTD
+    up_tunnel->ID   = 0x56545455; // VTTU
+    down_tunnel->ID = 0x56545444; // VTTD
 
     return RT_EOK;
 }
 // Ensure initialization after tunnel system and before device drivers
-//INIT_PREV_EXPORT(RT_Vterm_Init);
-MSH_CMD_EXPORT(RT_Vterm_Init,RT_Vterm_Init)
+// INIT_PREV_EXPORT(RT_Vterm_Init);
+MSH_CMD_EXPORT(RT_Vterm_Init, RT_Vterm_Init)
 
 /*****************************************************************************
  * @brief        Write data to upstream tunnel buffer
@@ -204,7 +204,7 @@ uint32_t RT_Vterm_PutCharSkip(char c)
  * @brief  Get available write space in upstream buffer
  * @retval uint32_t  Number of free bytes in upstream buffer, 0 if tunnel invalid
  */
-uint32_t RT_Vterm_GetAvailWriteSpace()
+uint32_t RT_Vterm_GetAvailWriteSpace(void)
 {
     if (up_tunnel)
         return Get_Tunnel_Buffer_Free(up_tunnel);

@@ -141,10 +141,10 @@ void Switch_To_Vterm(void);
 void Restore_Original(void);
 
 /**
- * @brief  Initialize virtual terminal buffer system
+ * @brief  Initialize virtual terminal
  * @retval int  0 on success, negative error code otherwise
  */
-int Vterm_Buffer_Init(void);
+int RT_Vterm_Init(void);
 
 /**
  * @brief        Register a command with its callback to virtual terminal
