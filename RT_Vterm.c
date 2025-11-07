@@ -34,6 +34,13 @@ int RT_Vterm_Init(void)
 {
     up_tunnel   = Get_Free_Tunnel();
     down_tunnel = Get_Free_Tunnel();
+
+    if(!up_tunnel||!down_tunnel)
+    {
+        LOG_ERROR("no enough tunnel");
+        return -RT_ENOMEM;
+    }
+
     Set_Tunnel_Operation(up_tunnel, tunnel_write);
     Set_Tunnel_Operation(down_tunnel, tunnel_read);
     up_tunnel->ID   = 0x56545455; // VTTU

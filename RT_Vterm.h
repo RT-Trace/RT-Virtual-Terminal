@@ -11,12 +11,6 @@ extern RT_tunnel_t up_tunnel;
 extern RT_tunnel_t down_tunnel;
 
 /**
- * @brief  Initialize the hardware-dependent part of Virtual Terminal
- * @retval int  0 on success, negative error code otherwise
- */
-int rt_hw_vterm_init(void);
-
-/**
  * @brief        Write data to upstream buffer
  * @param[in]    pBuffer     Pointer to data buffer
  * @param[in]    NumBytes    Number of bytes to write
@@ -133,31 +127,18 @@ typedef struct
 /**
  * @brief  Switch to virtual terminal mode
  */
-void Switch_To_Vterm(void);
+void vterm_console(void);
 
 /**
  * @brief  Restore original terminal mode
  */
-void Restore_Original(void);
+void restore_original(void);
 
 /**
  * @brief  Initialize virtual terminal
  * @retval int  0 on success, negative error code otherwise
  */
 int RT_Vterm_Init(void);
-
-/**
- * @brief        Register a command with its callback to virtual terminal
- * @param[in]    cmd         Command string
- * @param[in]    cb          Corresponding callback function
- * @retval       int         0 on success, negative error code otherwise
- */
-int Vterm_Cmd_Register(const char *cmd, vterm_cmd_callback_t cb);
-
-/**
- * @brief  Start virtual terminal input assistance function
- */
-void Start_Vterm_Input_Assist(void);
 
 /**< Default mode: Do not block, skip output when buffer is full */
 #define RT_Vterm_MODE_NO_BLOCK_SKIP (0)

@@ -60,8 +60,8 @@ static rt_err_t vterm_open(rt_device_t dev, rt_uint16_t oflag)
  * @note         1. Converts '\n' to "\r\n" for proper line endings
  *               2. Uses RT_Vterm_PutChar for actual data transmission
  */
-static rt_size_t vterm_write(rt_device_t dev, rt_off_t pos,
-                             const void *buffer, rt_size_t size)
+static rt_ssize_t vterm_write(rt_device_t dev, rt_off_t pos,
+                              const void *buffer, rt_size_t size)
 {
     const char *ptr = (const char *)buffer;
     rt_size_t   i;
@@ -90,8 +90,8 @@ static rt_size_t vterm_write(rt_device_t dev, rt_off_t pos,
  *
  * @note         Wraps RT_Vterm_Read for data retrieval from downstream buffer
  */
-static rt_size_t vterm_read(rt_device_t dev, rt_off_t pos,
-                            void *buffer, rt_size_t size)
+static rt_ssize_t vterm_read(rt_device_t dev, rt_off_t pos,
+                             void *buffer, rt_size_t size)
 {
     rt_size_t ret = (rt_size_t)RT_Vterm_Read(buffer, size);
     return ret;
@@ -186,6 +186,8 @@ static void vterm_check(void)
  */
 int vterm_device_init(void)
 {
+    rt_err_t ret;
+
     // Initialize Vterm device structure
     vterm_dev.parent.type  = RT_Device_Class_Char;
     vterm_dev.parent.open  = vterm_open;
@@ -193,7 +195,11 @@ int vterm_device_init(void)
     vterm_dev.parent.write = vterm_write;
 
     // Register Vterm device with RT-Thread device manager
-    rt_device_register(&vterm_dev.parent, "vterm", RT_DEVICE_FLAG_RDWR);
+    ret = rt_device_register(&vterm_dev.parent, "vterm", RT_DEVICE_FLAG_RDWR);
+    if (ret != RT_EOK)
+    {
+        return ret;
+    }
 
     rt_thread_idle_sethook(vterm_check);
 
@@ -212,7 +218,11 @@ MSH_CMD_EXPORT(vterm_device_init, Initialize Vterm buffer device);
  */
 int rt_hw_vterm_console_init(void)
 {
-    vterm_device_init();
+    int ret = vterm_device_init();
+    if (ret != RT_EOK)
+    {
+        return ret;
+    }
     vterm_console();
     return RT_EOK;
 }

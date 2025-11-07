@@ -46,8 +46,7 @@ void vterm_example_printf(void)
     RT_Vterm_printf("整数: %d\n", num);
     RT_Vterm_printf("十六进制: 0x%X\n", hex);
     RT_Vterm_printf("字符串: %s\n", str);
-    RT_Vterm_printf("浮点数: %.3f\n", fval);
-    RT_Vterm_printf("混合: num=%d, hex=0x%X, str=%s, float=%.2f\n", num, hex, str, fval);
+    RT_Vterm_printf("混合: num=%d, hex=0x%X, str=%s\n", num, hex, str);
     RT_Vterm_printf("请在调试器端查看输出\n");
 
     rt_kprintf("Vterm printf example done.\n");
